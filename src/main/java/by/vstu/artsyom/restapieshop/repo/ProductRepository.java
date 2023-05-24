@@ -1,4 +1,9 @@
 package by.vstu.artsyom.restapieshop.repo;
 
-public interface ProductRepository extends org.springframework.data.jpa.repository.JpaRepository<by.vstu.artsyom.restapieshop.entity.Product, java.lang.Long> {
+import by.vstu.artsyom.restapieshop.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+
 }
