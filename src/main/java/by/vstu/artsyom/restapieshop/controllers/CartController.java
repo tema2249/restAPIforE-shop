@@ -35,7 +35,7 @@ public class CartController {
         }
     }
     @DeleteMapping
-    public ResponseEntity<Void> deleteNomenclature(@RequestBody Long id) {
+    public ResponseEntity<Void> delete(@RequestBody Long id) {
         boolean deleted = cartService.delete(id);
         if (deleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

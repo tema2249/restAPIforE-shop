@@ -33,8 +33,11 @@ public class ProductService {
         if (product0.isPresent() == false) {
             return null;
         }
-        productRepository.save(product);
-        return product;
+        product0.get().setTitle(product.getTitle());
+        product0.get().setPrice(product.getPrice());
+        product0.get().setDetails(product.getDetails());
+        productRepository.save(product0.get());
+        return product0.get();
 
     }
 
