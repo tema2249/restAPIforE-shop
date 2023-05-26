@@ -16,8 +16,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Product create(Product product) {
-        //Product product = new Product();
-        //product.setTitle(title);
         productRepository.save(product);
         return product;
     }
