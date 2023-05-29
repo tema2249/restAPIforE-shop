@@ -14,6 +14,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartService cartService;
 
+    private final UserService userService;
+
     public Order create(User user,String fullAddress){
         List<Cart> carts = cartService.getTakeAll(user);
         if (carts.isEmpty()){
@@ -36,7 +38,12 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public List<Order> getOrdersUsers(User user){
+    public List<Order> getOrdersUsers(Long user_id){
+        Optional<User> user = userService.findById(user_id);
+        if (user.isPresent() == false) {
+            return null;
+        }
+
         return orderRepository.findOrdersByUser(user);
     }
 

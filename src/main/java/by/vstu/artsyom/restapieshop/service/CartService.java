@@ -16,16 +16,24 @@ import java.util.Optional;
 @Service
 public class CartService {
     private ProductService productService;
+    private UserService userService;
     private CartRepository cartRepository;
     public Optional<Cart> findById(Long id){
         return cartRepository.findById(id);
     }
-    public Cart addToCart(User user, Long product_id, int quantity){
-        return new Cart(user, productService.findByID(product_id).get(), quantity);
+    public Cart addToCart(Long user_id, Long product_id, int quantity){
+        Optional<User> user = userService.findById(user_id);
+        Optional<Product> product = productService.findByID(product_id);
+        if (user.isPresent() == false || product.isPresent() == false){
+            return null;
+        }
+        User user1 = user.get();
+        Cart cart = new Cart(user.get(), product.get(), quantity);
+        return cart;
 
     }
 
-    public List<Cart> getAll(User user) {
+    public List<Cart> getAll() {
         return cartRepository.findAll();
 
     }
@@ -39,10 +47,15 @@ public class CartService {
         return true;
     }
 
-    public Cart update(Long id, Cart cart) {
-        cartRepository.delete(findById(id).get());
-        cartRepository.save(cart);
+    public Optional<Cart> update(Long id, int quantity) {
+        Optional<Cart> cart = findById(id);
+        if (cart.isPresent() == false){
+            return null;
+        }
+        cart.get().setQuantity(quantity);
+        cartRepository.save(cart.get());
         return cart;
 
     }
+
 }

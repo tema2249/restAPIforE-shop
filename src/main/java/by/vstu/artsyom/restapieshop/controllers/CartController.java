@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Data
@@ -18,16 +19,14 @@ public class CartController {
     private final CartService cartService;
     private final ProductRepository productRepository;
     @PostMapping
-    public ResponseEntity<Cart> add(@RequestBody Long product_id, @RequestBody int quantity){
-        User user = new User();
-        Cart cart = cartService.addToCart(user, product_id, quantity);
+    public ResponseEntity<Cart> add(@RequestBody Long user_id, @RequestBody Long product_id, @RequestBody int quantity){
+        Cart cart = new Cart();
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Cart>> getAll(){
-        User user = new User();
-        List<Cart> carts = cartService.getAll(user);
+        List<Cart> carts = cartService.getAll();
         if (!carts.isEmpty()) {
             return new ResponseEntity<>(carts, HttpStatus.OK);
         } else {
@@ -44,10 +43,11 @@ public class CartController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Cart> update(@RequestBody Long id, @RequestBody Cart cart){
-        if (cartService.update(id, cart) != null ){
-            return new ResponseEntity<>(cart, HttpStatus.OK);
+    @PutMapping("/")
+    public ResponseEntity<Cart> update(@RequestBody Long id, @RequestBody int quantity){
+        Optional<Cart> cart = cartService.update(id, quantity);
+        if (cart.isPresent() ){
+            return new ResponseEntity<>(cart.get(), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

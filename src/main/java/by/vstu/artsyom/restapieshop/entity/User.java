@@ -9,8 +9,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    private int login;
+    private String login;
     private String name;
     private String email;
     private String password;
+    public User(String login, String name){
+        this.login = login;
+        this.name = name;
+    }
 }

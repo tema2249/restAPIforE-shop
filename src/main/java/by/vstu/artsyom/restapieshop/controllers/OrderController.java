@@ -18,8 +18,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAll(@RequestBody User user){
-        List<Order> orders = orderService.getOrdersUsers(user);
+    public ResponseEntity<List<Order>> getAll(@RequestBody Long user_id){
+        List<Order> orders = orderService.getOrdersUsers(user_id);
         if (!orders.isEmpty()) {
             //IsEmpty - проверяет, является ли строка пустой ("") или значение null.
             return new ResponseEntity<>(orders, HttpStatus.OK);
